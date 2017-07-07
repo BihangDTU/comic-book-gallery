@@ -9,9 +9,21 @@ namespace ComicBookGallery.Controllers
 {
     public class ComicBooksController : Controller
     {
-        public ActionResult Detail()
+        private Data.ComicBookRepository _comicBookRepository = null;
+
+        public ComicBooksController()
         {
-            return View(); 
+            _comicBookRepository = new Data.ComicBookRepository();
+        }
+        public ActionResult Detail(int? id)
+        {
+            if(id == null)
+            {
+                return HttpNotFound();
+            }
+            var comicBook = _comicBookRepository.GetComicBook((int)id);
+
+            return View(comicBook); 
         }
     }
 }
